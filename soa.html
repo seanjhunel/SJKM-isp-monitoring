@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account — Statement of Account | SJKM Internet Solutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="customer.css">
+</head>
+<body>
+  <nav class="navbar no-print">
+    <div class="container navbar-inner">
+      <a href="/customer/" class="nav-brand">
+        <div class="brand-icon"><svg viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="url(#bg)"/><circle cx="16" cy="16" r="5" stroke="#fff" stroke-width="2"/><path d="M10 16h-4M26 16h-4M16 10V6M16 26v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><defs><linearGradient id="bg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs></svg></div>
+        <span>SJKM Internet</span>
+      </a>
+      <div class="nav-links">
+        <a href="apply.html">Apply</a>
+        <a href="support.html">Support</a>
+        <a href="soa.html" class="active">My Account</a>
+      </div>
+      <button class="mobile-menu-btn" id="mobileMenuBtn"><span></span><span></span><span></span></button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="apply.html">Apply for Internet</a>
+      <a href="support.html">Customer Support</a>
+      <a href="soa.html">My Account / SOA</a>
+    </div>
+  </nav>
+
+  <main class="page-main">
+    <div class="container narrow-container">
+      <!-- Login State -->
+      <div id="loginSection">
+        <div class="page-title-section">
+          <h1>My Account</h1>
+          <p>Log in using your PPPoE Username and Password to view your billing statement.</p>
+        </div>
+        <form class="form-card compact-form" id="loginForm">
+          <div class="form-group">
+            <label for="pppoeUser">PPPoE Username</label>
+            <input type="text" id="pppoeUser" required placeholder="Enter your PPPoE user">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required placeholder="Enter your password">
+            <small class="form-hint">Default password: <code>pass123</code></small>
+          </div>
+          <div id="loginError" class="error-msg" style="display:none"></div>
+          <div class="form-actions">
+            <span></span>
+            <button type="submit" class="btn btn-hero" id="loginBtn">View My Account</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- SOA Dashboard -->
+      <div id="soaSection" style="display:none">
+        <div class="page-title-section">
+          <div class="soa-header-row">
+            <div>
+              <h1>Statement of Account</h1>
+              <p id="soaName">—</p>
+            </div>
+            <div class="soa-actions no-print">
+              <button class="btn btn-outline-dark" onclick="window.print()">🖨️ Print SOA</button>
+              <button class="btn btn-outline-dark" id="logoutBtn">Logout</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Info Cards -->
+        <div class="soa-info-grid">
+          <div class="soa-info-card">
+            <span class="soa-info-label">Plan</span>
+            <span class="soa-info-value" id="soaPlan">—</span>
+          </div>
+          <div class="soa-info-card">
+            <span class="soa-info-label">Monthly Rate</span>
+            <span class="soa-info-value" id="soaRate">—</span>
+          </div>
+          <div class="soa-info-card">
+            <span class="soa-info-label">Status</span>
+            <span class="soa-info-value" id="soaStatus">—</span>
+          </div>
+          <div class="soa-info-card">
+            <span class="soa-info-label">PPPoE User</span>
+            <span class="soa-info-value" id="soaPppoe">—</span>
+          </div>
+          <div class="soa-info-card">
+            <span class="soa-info-label">Next Due Date</span>
+            <span class="soa-info-value" id="soaNextDue">—</span>
+          </div>
+        </div>
+
+        <!-- Payment History -->
+        <div class="soa-table-card">
+          <h3>Payment History</h3>
+          <div class="table-container">
+            <table class="soa-table">
+              <thead>
+                <tr>
+                  <th>Due Date</th>
+                  <th>Payment Date</th>
+                  <th>Amount</th>
+                  <th>Method</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="paymentTbody">
+                <tr><td colspan="5" style="text-align:center;padding:20px;color:#888">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer no-print">
+    <div class="footer-bottom"><div class="container"><p>© 2024 SJKM Internet Solutions. All rights reserved.</p></div></div>
+  </footer>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('loginBtn');
+      const err = document.getElementById('loginError');
+      btn.disabled = true;
+      err.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/customer/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            pppoe_user: document.getElementById('pppoeUser').value.trim(),
+            pppoe_pass: document.getElementById('password').value
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          loadSOA(data.customer.accountId);
+        } else {
+          err.textContent = data.error;
+          err.style.display = 'block';
+        }
+      } catch (ex) {
+        err.textContent = 'Connection error. Please try again.';
+        err.style.display = 'block';
+      }
+      btn.disabled = false;
+    });
+
+    async function loadSOA(accountId) {
+      try {
+        const res = await fetch(`/api/customer/soa/${accountId}`);
+        const data = await res.json();
+
+        if (data.error) {
+          alert(data.error);
+          return;
+        }
+
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('soaSection').style.display = 'block';
+
+        document.getElementById('soaName').textContent = data.client.name;
+        document.getElementById('soaPlan').textContent = data.client.plan;
+        document.getElementById('soaRate').textContent = '₱' + Number(data.client.monthlyRate).toLocaleString();
+        document.getElementById('soaPppoe').textContent = data.client.pppoeUser;
+        document.getElementById('soaNextDue').textContent = new Date(data.nextDue).toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        const statusEl = document.getElementById('soaStatus');
+        statusEl.textContent = data.client.status.charAt(0).toUpperCase() + data.client.status.slice(1);
+        statusEl.className = 'soa-info-value status-text-' + data.client.status;
+
+        // Payment table
+        const tbody = document.getElementById('paymentTbody');
+        if (data.payments.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#888">No payment records found.</td></tr>';
+        } else {
+          tbody.innerHTML = data.payments.map(p => `
+            <tr>
+              <td>${new Date(p.due_date).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' })}</td>
+              <td>${p.payment_date ? new Date(p.payment_date).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' }) : '—'}</td>
+              <td><strong>₱${Number(p.amount).toLocaleString()}</strong></td>
+              <td>${p.method || '—'}</td>
+              <td><span class="soa-status-pill ${p.status}">${p.status.charAt(0).toUpperCase() + p.status.slice(1)}</span></td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {
+        alert('Failed to load account data.');
+      }
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/customer/logout', { method: 'POST' });
+      document.getElementById('soaSection').style.display = 'none';
+      document.getElementById('loginSection').style.display = 'block';
+    });
+
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+      this.classList.toggle('active');
+      document.getElementById('mobileMenu').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

@@ -3,154 +3,192 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | ISP Monitor Admin</title>
+  <title>SJKM Internet Solutions — Fast & Reliable Fiber</title>
+  <meta name="description" content="Apply for high-speed fiber internet, view your billing statement, or get tech support.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="customer.css">
 </head>
 <body>
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <div class="sidebar-logo">
-        <svg viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="url(#sg)"/><circle cx="16" cy="16" r="5" stroke="#fff" stroke-width="2"/><path d="M10 16h-4M26 16h-4M16 10V6M16 26v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><defs><linearGradient id="sg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs></svg>
-      </div>
-      <div class="sidebar-brand">
-        <h2>ISP Monitor</h2>
-        <span class="sidebar-badge">Admin</span>
-      </div>
-    </div>
-    <nav class="sidebar-nav">
-      <a href="index.html" class="nav-item active" data-page="dashboard">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        <span>Dashboard</span>
-      </a>
-      <a href="clients.html" class="nav-item" data-page="clients">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-        <span>Clients</span>
-      </a>
-      <a href="applications.html" class="nav-item" data-page="applications">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        <span>Applications</span>
-        <span class="nav-badge" id="navAppBadge" style="display:none">0</span>
-      </a>
-      <a href="tickets.html" class="nav-item" data-page="tickets">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-        <span>Tech Review</span>
-        <span class="nav-badge" id="navTicketBadge" style="display:none">0</span>
-      </a>
-    </nav>
-    <div class="sidebar-footer">
-      <div class="admin-info">
-        <div class="admin-avatar">A</div>
-        <div class="admin-meta">
-          <span id="adminName">Administrator</span>
-          <small>System Admin</small>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="/customer/" class="nav-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="url(#bg)"/><circle cx="16" cy="16" r="5" stroke="#fff" stroke-width="2"/><path d="M10 16h-4M26 16h-4M16 10V6M16 26v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><defs><linearGradient id="bg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs></svg>
         </div>
+        <span>SJKM Internet Solutions</span>
+      </a>
+      <div class="nav-links">
+        <a href="apply.html">Apply</a>
+        <a href="support.html">Support</a>
+        <a href="soa.html">My Account</a>
       </div>
-      <button class="btn-logout" id="logoutBtn" title="Sign Out">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <span></span><span></span><span></span>
       </button>
     </div>
-  </aside>
-
-  <!-- Mobile Header -->
-  <div class="mobile-header">
-    <button class="hamburger" id="menuToggle">
-      <span></span><span></span><span></span>
-    </button>
-    <h1>ISP Monitor</h1>
-  </div>
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-  <!-- Main Content -->
-  <main class="main-content">
-    <div class="page-header">
-      <div>
-        <h1>PPPoE Monitoring</h1>
-        <p class="page-subtitle">Real-time connection status & bandwidth</p>
-      </div>
-      <div class="header-actions">
-        <button class="btn btn-primary btn-sync" id="syncBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;margin-right:6px;"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 12c0-4.4 3.6-8 8-8 3.3 0 6.2 2 7.4 4.9M22 12c0 4.4-3.6 8-8 8-3.3 0-6.2-2-7.4-4.9"/></svg>
-          Sync MikroTik
-        </button>
-        <span class="live-indicator"><span class="live-dot"></span> Live</span>
-        <span class="last-update" id="lastUpdate">Updated just now</span>
-      </div>
-
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="apply.html">Apply for Internet</a>
+      <a href="support.html">Customer Support</a>
+      <a href="soa.html">My Account / SOA</a>
     </div>
+  </nav>
 
-    <!-- Stats Grid -->
-    <div class="stats-grid">
-      <div class="stat-card stat-total">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-        </div>
-        <div class="stat-data">
-          <span class="stat-value" id="totalClients">0</span>
-          <span class="stat-label">Total Clients</span>
-        </div>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg-effects">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-grid"></div>
+    </div>
+    <div class="container hero-content">
+      <div class="hero-badge">🚀 Now Available in Your Area</div>
+      <h1>Blazing Fast<br><span class="gradient-text">Fiber Internet</span></h1>
+      <p class="hero-desc">Experience seamless connectivity with speeds up to 200Mbps. No data caps, no interruptions — just pure, reliable internet.</p>
+      <div class="hero-actions">
+        <a href="apply.html" class="btn btn-hero">Apply Now</a>
+        <a href="#plans" class="btn btn-outline">View Plans</a>
       </div>
-      <div class="stat-card stat-online">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><circle cx="12" cy="20" r="1"/></svg>
-        </div>
-        <div class="stat-data">
-          <span class="stat-value" id="onlineClients">0</span>
-          <span class="stat-label">Online Now</span>
-        </div>
-      </div>
-      <div class="stat-card stat-offline">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-        </div>
-        <div class="stat-data">
-          <span class="stat-value" id="offlineClients">0</span>
-          <span class="stat-label">Offline</span>
-        </div>
-      </div>
-      <div class="stat-card stat-revenue">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-        </div>
-        <div class="stat-data">
-          <span class="stat-value" id="totalRevenue">₱0</span>
-          <span class="stat-label">Total Revenue</span>
-        </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hero-stat-val">99.9%</span><span class="hero-stat-label">Uptime</span></div>
+        <div class="hero-stat"><span class="hero-stat-val">200+</span><span class="hero-stat-label">Clients</span></div>
+        <div class="hero-stat"><span class="hero-stat-val">24/7</span><span class="hero-stat-label">Support</span></div>
       </div>
     </div>
+  </section>
 
-
-    <!-- Active PPPoE Sessions -->
-    <div class="card">
-      <div class="card-header">
-        <h2>Active PPPoE Sessions</h2>
-        <div class="card-actions">
-          <input type="text" class="search-input" id="sessionSearch" placeholder="Search sessions...">
+  <!-- Plans Section -->
+  <section class="plans-section" id="plans">
+    <div class="container">
+      <div class="section-header">
+        <h2>Choose Your Plan</h2>
+        <p>All plans include unlimited data and free installation</p>
+      </div>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div class="plan-name">Basic</div>
+          <div class="plan-speed">UP TO 15Mbps <small>Mbps</small></div>
+          <div class="plan-price">₱899<span>/mo</span></div>
+          <ul class="plan-features">
+            <li>✓ Unlimited Data</li>
+            <li>✓ Free Installation</li>
+            <li>✓ 1 WiFi Router</li>
+            <li>✓ Email Support</li>
+          </ul>
+          <a href="apply.html?plan=Basic+15Mbps" class="btn btn-plan">Get Started</a>
+        </div>
+        <div class="plan-card plan-popular">
+          <div class="popular-tag">Most Popular</div>
+          <div class="plan-name">Standard</div>
+          <div class="plan-speed">UP TO 25Mbps <small>Mbps</small></div>
+          <div class="plan-price">₱1,000<span>/mo</span></div>
+          <ul class="plan-features">
+            <li>✓ Unlimited Data</li>
+            <li>✓ Free Installation</li>
+            <li>✓ Dual-Band Router</li>
+            <li>✓ Priority Support</li>
+            <li>✓ Static IP Available</li>
+          </ul>
+          <a href="apply.html?plan=Standard+25Mbps" class="btn btn-plan-primary">Get Started</a>
+        </div>
+        <div class="plan-card">
+          <div class="plan-name">Premium</div>
+          <div class="plan-speed">50 <small>Mbps</small></div>
+          <div class="plan-price">₱2,000<span>/mo</span></div>
+          <ul class="plan-features">
+            <li>✓ Unlimited Data</li>
+            <li>✓ Free Installation</li>
+            <li>✓ High-Gain Router</li>
+          </ul>
+          <a href="apply.html?plan=Premium+50Mbps" class="btn btn-plan">Get Started</a>
+        </div>
+        <div class="plan-card">
+          <div class="plan-name">Ultra</div>
+          <div class="plan-speed">100 <small>Mbps</small></div>
+          <div class="plan-price">₱2,599<span>/mo</span></div>
+          <ul class="plan-features">
+            <li>✓ Unlimited Data</li>
+            <li>✓ Free Installation</li>
+            <li>✓ Enterprise Router</li>
+            <li>✓ Dedicated Support</li>
+            <li>✓ Static IP Included</li>
+          </ul>
+          <a href="apply.html?plan=Ultra+100Mbps" class="btn btn-plan">Get Started</a>
         </div>
       </div>
-      <div class="table-container">
-        <table class="data-table" id="sessionsTable">
-          <thead>
-            <tr>
-              <th>PPPoE User</th>
-              <th>IP Address</th>
-              <th>Uptime</th>
-              <th>Download</th>
-              <th>Upload</th>
-              <th>MAC Address</th>
-            </tr>
-          </thead>
-          <tbody id="sessionsTbody">
-            <tr><td colspan="6" class="loading-cell"><div class="spinner"></div> Loading sessions...</td></tr>
-          </tbody>
-        </table>
+    </div>
+  </section>
+
+  <!-- Services Cards -->
+  <section class="services-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Customer Services</h2>
+        <p>Everything you need, right at your fingertips</p>
+      </div>
+      <div class="services-grid">
+        <a href="apply.html" class="service-card service-apply">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          </div>
+          <h3>Apply for Internet</h3>
+          <p>Submit your application online and get connected within 3-5 business days.</p>
+          <span class="service-link">Apply Now →</span>
+        </a>
+        <a href="support.html" class="service-card service-support">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+          <h3>Customer Support</h3>
+          <p>Having issues? Our tech team is ready to help resolve your concerns.</p>
+          <span class="service-link">Get Help →</span>
+        </a>
+        <a href="soa.html" class="service-card service-billing">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <h3>View SOA</h3>
+          <p>Check your billing statement, payment history, and account details.</p>
+          <span class="service-link">View Account →</span>
+        </a>
       </div>
     </div>
+  </section>
 
-  </main>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <h3>SJKM Internet Solutions</h3>
+        <p>Providing fast and reliable internet since 2020.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="apply.html">Apply for Internet</a>
+        <a href="support.html">Customer Support</a>
+        <a href="soa.html">My Account</a>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact Us</h4>
+        <p>📞 0991-825-1585</p>
+        <p>📧 sjkmsolutions@gmail.com</p>
+        <p>📍 NABUA </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© 2024 SJKM Internet Solutions. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 
-  <script src="admin.js"></script>
+  <script>
+    // Mobile menu toggle
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+      this.classList.toggle('active');
+      document.getElementById('mobileMenu').classList.toggle('open');
+    });
+  </script>
 </body>
 </html>
