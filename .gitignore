@@ -1,0 +1,18 @@
+# Environment variables (contains passwords - NEVER upload this!)
+.env
+
+# Database (personal data)
+data/
+
+# Large executables (friend downloads these separately)
+cloudflared.exe
+node.exe
+*.exe
+
+# Node modules (friend runs npm install)
+node_modules/
+
+# Temp files
+*.log
+fix_db.js
+cleanup_db.js
