@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application Review | ISP Monitor Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="url(#sg)"/><circle cx="16" cy="16" r="5" stroke="#fff" stroke-width="2"/><path d="M10 16h-4M26 16h-4M16 10V6M16 26v-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><defs><linearGradient id="sg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs></svg>
+      </div>
+      <div class="sidebar-brand">
+        <h2>ISP Monitor</h2>
+        <span class="sidebar-badge">Admin</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html" class="nav-item" data-page="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="clients.html" class="nav-item" data-page="clients">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        <span>Clients</span>
+      </a>
+      <a href="applications.html" class="nav-item active" data-page="applications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span>Applications</span>
+        <span class="nav-badge" id="navAppBadge" style="display:none">0</span>
+      </a>
+      <a href="tickets.html" class="nav-item" data-page="tickets">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <span>Tech Review</span>
+        <span class="nav-badge" id="navTicketBadge" style="display:none">0</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="admin-info">
+        <div class="admin-avatar">A</div>
+        <div class="admin-meta">
+          <span id="adminName">Administrator</span>
+          <small>System Admin</small>
+        </div>
+      </div>
+      <button class="btn-logout" id="logoutBtn" title="Sign Out">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <div class="mobile-header">
+    <button class="hamburger" id="menuToggle"><span></span><span></span><span></span></button>
+    <h1>ISP Monitor</h1>
+  </div>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <h1>Application Review</h1>
+        <p class="page-subtitle">Manage new internet service applications</p>
+      </div>
+      <div class="header-actions">
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">All</button>
+          <button class="filter-tab" data-filter="pending">Pending</button>
+          <button class="filter-tab" data-filter="approved">Approved</button>
+          <button class="filter-tab" data-filter="rejected">Rejected</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="apps-grid" id="appsGrid">
+      <div class="loading-state"><div class="spinner"></div> Loading applications...</div>
+    </div>
+  </main>
+
+  <!-- Review Modal -->
+  <div class="modal-overlay" id="reviewModal" style="display:none">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Review Application</h2>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid">
+          <div class="detail-item"><label>Full Name</label><span id="modalName"></span></div>
+          <div class="detail-item"><label>Contact</label><span id="modalContact"></span></div>
+          <div class="detail-item"><label>Email</label><span id="modalEmail"></span></div>
+          <div class="detail-item"><label>Address</label><span id="modalAddress"></span></div>
+          <div class="detail-item full-width"><label>Desired Plan</label><span id="modalPlan"></span></div>
+          <div class="detail-item full-width"><label>Message</label><p id="modalMessage"></p></div>
+        </div>
+        <div class="form-group">
+          <label for="adminNotes">Admin Notes</label>
+          <textarea id="adminNotes" rows="3" placeholder="Add notes (optional)..."></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-approve" id="btnApprove">✓ Approve</button>
+        <button class="btn btn-reject" id="btnReject">✕ Reject</button>
+        <button class="btn btn-cancel" id="btnCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .app-actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
+    .btn-approve-small, .btn-reject-small, .btn-review-small { cursor: pointer; border-radius: 6px; font-weight: 600; font-size: 0.8rem; padding: 0.4rem 0.8rem; transition: 0.2s; }
+    .btn-approve-small { background: #22c55e20; color: #22c55e; border: 1px solid #22c55e40; }
+    .btn-approve-small:hover { background: #22c55e; color: #fff; }
+    .btn-reject-small { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
+    .btn-reject-small:hover { background: #ef4444; color: #fff; }
+    .btn-review-small { background: #6366f115; color: #6366f1; border: 1px solid #6366f130; }
+    .btn-review-small:hover { background: #6366f1; color: #fff; }
+  </style>
+
+  <script src="admin.js"></script>
+  <script>
+    let currentAppId = null;
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    let currentFilter = 'all';
+
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentFilter = tab.dataset.filter;
+        loadApplications();
+      });
+    });
+
+    window.loadApplications = async function() { // Made global
+      try {
+        const res = await fetch('/api/admin/applications');
+        if (res.status === 401) return window.location.href = 'login.html';
+        allApps = await res.json(); // Assign to global allApps
+        const filtered = currentFilter === 'all' ? allApps : allApps.filter(a => a.status === currentFilter);
+        const grid = document.getElementById('appsGrid');
+
+        if (filtered.length === 0) {
+          grid.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg><h3>No applications found</h3><p>There are no ' + currentFilter + ' applications.</p></div>';
+          return;
+        }
+
+        grid.innerHTML = filtered.map(app => {
+          const status = app.status || 'pending';
+          return `
+            <div class="app-card status-${status}">
+              <div class="app-card-header">
+                <span class="status-pill ${status}">${status.charAt(0).toUpperCase() + status.slice(1)}</span>
+              <span class="app-date">${new Date(app.created_at).toLocaleDateString()}</span>
+            </div>
+            <h3 class="app-name">${app.full_name}</h3>
+            <div class="app-details">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> ${app.address}</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> ${app.contact}</span>
+              <span class="app-plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M5 12.55a11 11 0 0114.08 0"/><circle cx="12" cy="20" r="1"/></svg> ${app.desired_plan}</span>
+            </div>
+            ${app.message ? `<p class="app-message">"${app.message}"</p>` : ''}
+            ${app.admin_notes ? `<p class="admin-notes"><strong>Notes:</strong> ${app.admin_notes}</p>` : ''}
+            ${status === 'pending' ? `
+              <div class="app-actions">
+                <button class="btn btn-approve-small" onclick="quickUpdate(${app.id}, 'approved')">✓ Approve</button>
+                <button class="btn btn-reject-small" onclick="quickUpdate(${app.id}, 'rejected')">✕ Reject</button>
+                <button class="btn btn-review-small" onclick="openReview(${app.id})">Review</button>
+              </div>
+            ` : ''}
+          </div>
+        `;
+        }).join('');
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    window.openReview = function(id) {
+      const app = allApps.find(a => a.id === id);
+      if (!app) return;
+      currentAppId = id;
+      document.getElementById('modalName').textContent = app.full_name;
+      document.getElementById('modalContact').textContent = app.contact;
+      document.getElementById('modalEmail').textContent = app.email || 'N/A';
+      document.getElementById('modalAddress').textContent = app.address;
+      document.getElementById('modalPlan').textContent = app.desired_plan;
+      document.getElementById('modalMessage').textContent = app.message || 'No message provided.';
+      document.getElementById('adminNotes').value = app.admin_notes || '';
+      document.getElementById('reviewModal').style.display = 'flex';
+    }
+
+    document.getElementById('modalClose').onclick = () => document.getElementById('reviewModal').style.display = 'none';
+    document.getElementById('btnCancel').onclick = () => document.getElementById('reviewModal').style.display = 'none';
+
+    window.updateApp = async function(status) {
+      await quickUpdate(currentAppId, status, document.getElementById('adminNotes').value);
+      document.getElementById('reviewModal').style.display = 'none';
+    }
+
+    window.quickUpdate = async function(id, status, notes = '') {
+      try {
+        const res = await fetch(`/api/admin/applications/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status, admin_notes: notes })
+        });
+        if (res.ok) {
+          loadApplications();
+        } else {
+          alert('Failed to update application');
+        }
+      } catch (err) {
+        alert('Error connecting to server');
+      }
+    }
+
+    document.getElementById('btnApprove').onclick = () => updateApp('approved');
+    document.getElementById('btnReject').onclick = () => updateApp('rejected');
+
+    loadApplications();
+  </script>
+</body>
+</html>
